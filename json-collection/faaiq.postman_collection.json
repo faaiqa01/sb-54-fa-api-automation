@@ -1,0 +1,1423 @@
+{
+	"info": {
+		"_postman_id": "8dac3617-41b2-4749-bb9f-fd47dd4e2ad1",
+		"name": "Simple Books API - Sanbercode",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29697609",
+		"_collection_link": "https://www.postman.com/research-candidate-30388926/workspace/public-api/collection/29697609-8dac3617-41b2-4749-bb9f-fd47dd4e2ad1?action=share&source=collection_link&creator=29697609"
+	},
+	"item": [
+		{
+			"name": "API Authentication - Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\t\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Token should not be empty\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.accessToken).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Tes untuk memeriksa apakah token merupakan string\r",
+							"pm.test(\"Token should be a string\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.accessToken).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"// Mengambil token dari respons\r",
+							"var accessToken = pm.response.json().accessToken;\r",
+							"\r",
+							"// Menyimpan token ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"akses_token\", accessToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate random client name\r",
+							"var clientName = \"Faiq\" + Math.floor(Math.random() * 1000);\r",
+							"\r",
+							"// Generate random client email\r",
+							"var clientEmail = \"Faiq\" + Math.floor(Math.random() * 1000) + \"@examples.com\";\r",
+							"\r",
+							"// Store dynamic data in an object\r",
+							"var akundata = {\r",
+							"    \"clientName\": clientName,\r",
+							"    \"clientEmail\": clientEmail\r",
+							"};\r",
+							"\r",
+							"// Set dynamic data into environment variable\r",
+							"pm.environment.set(\"akundata\", JSON.stringify(akundata));\r",
+							"\r",
+							"// Mengambil data yang telah digenerate dari variabel lingkungan\r",
+							"var dynamicData = JSON.parse(pm.environment.get(\"akundata\"));\r",
+							"\r",
+							"// Menyimpan clientName ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"clientName\", dynamicData.clientName);\r",
+							"\r",
+							"// Menyimpan clientEmail ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"clientEmail\", dynamicData.clientEmail);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"{{clientName}}\",\r\n   \"clientEmail\": \"{{clientEmail}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/api-clients/",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"api-clients",
+						""
+					],
+					"query": [
+						{
+							"key": "clientName",
+							"value": "Valentin",
+							"disabled": true
+						},
+						{
+							"key": "clientEmail",
+							"value": "valentin@example.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Register email",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"clientName\": \"tesapiif\",\r\n   \"clientEmail\": \"tesapiif@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api-clients/",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api-clients",
+								""
+							],
+							"query": [
+								{
+									"key": "clientName",
+									"value": "Valentin",
+									"disabled": true
+								},
+								{
+									"key": "clientEmail",
+									"value": "valentin@example.com",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 03:51:45 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "82"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"52-HN8VrPZ6QFQDb+HimhpTJdHh+2k\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accessToken\": \"914d56ba9648dfc702e34bb96eede492c6b160b91958c7d3750f94a4e9689f93\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get - Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"pm.test(\"Status is OK\", function () {\r",
+							"    pm.expect(responseBody.status).to.equal(\"OK\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/status",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get - Status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/status",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:09:31 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"f-v/Y1JusChTxrQUzPtNAKycooOTA\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get - Books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// tes status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// tes waktu repson\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"// tes respon body.value\r",
+							"// Mendapatkan body respons dari respon\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"// Memeriksa apakah responseBody adalah sebuah array\r",
+							"pm.test(\"Memeriksa apakah respons adalah sebuah array\", function () {\r",
+							"    pm.expect(responseBody).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"// Iterasi melalui setiap entri data\r",
+							"responseBody.forEach(function(entry) {\r",
+							"    // Memeriksa nilai dari bidang \"id\" untuk setiap entri data\r",
+							"    pm.test(\"Memeriksa nilai ID\", function () {\r",
+							"        pm.expect(entry.id).to.be.a('number');\r",
+							"    });\r",
+							"\r",
+							"    // Memeriksa nilai dari bidang \"name\" untuk setiap entri data\r",
+							"    pm.test(\"Memeriksa nilai nama\", function () {\r",
+							"        pm.expect(entry.name).to.be.a('string');\r",
+							"    });\r",
+							"\r",
+							"    // Memeriksa nilai dari bidang \"type\" untuk setiap entri data\r",
+							"    pm.test(\"Memeriksa nilai jenis\", function () {\r",
+							"        pm.expect(entry.type).to.be.oneOf(['fiction', 'non-fiction']);\r",
+							"    });\r",
+							"\r",
+							"    // Memeriksa nilai dari bidang \"available\" untuk setiap entri data\r",
+							"    pm.test(\"Memeriksa nilai ketersediaan\", function () {\r",
+							"        pm.expect(entry.available).to.be.a('boolean');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/books",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get - Books",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/books",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:09:40 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "417"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"1a1-MfqhfTYtZO2sguD1mJq8Vf41WjU\""
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"The Russian\",\n        \"type\": \"fiction\",\n        \"available\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Just as I Am\",\n        \"type\": \"non-fiction\",\n        \"available\": false\n    },\n    {\n        \"id\": 3,\n        \"name\": \"The Vanishing Half\",\n        \"type\": \"fiction\",\n        \"available\": true\n    },\n    {\n        \"id\": 4,\n        \"name\": \"The Midnight Library\",\n        \"type\": \"fiction\",\n        \"available\": true\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Untamed\",\n        \"type\": \"non-fiction\",\n        \"available\": true\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Viscount Who Loved Me\",\n        \"type\": \"fiction\",\n        \"available\": true\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get - SIngle Books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// tes status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// tes waktu repson\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"// tes respon body.value\r",
+							"// Mendapatkan body respons dari respon\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"id\"\r",
+							"pm.test(\"Memeriksa nilai ID\", function () {\r",
+							"    pm.expect(responseBody.id).to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"name\"\r",
+							"pm.test(\"Memeriksa nilai nama\", function () {\r",
+							"    pm.expect(responseBody.name).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"author\"\r",
+							"pm.test(\"Memeriksa nilai author\", function () {\r",
+							"    pm.expect(responseBody.author).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"type\"\r",
+							"pm.test(\"Memeriksa nilai jenis\", function () {\r",
+							"    pm.expect(responseBody.type).to.be.oneOf(['fiction', 'non-fiction']);\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"price\"\r",
+							"pm.test(\"Memeriksa nilai price\", function () {\r",
+							"    pm.expect(responseBody.price).to.be.a('number');\r",
+							"    pm.expect(responseBody.price).to.equal(20.33);\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"current-stock\"\r",
+							"pm.test(\"Memeriksa nilai current-stock\", function () {\r",
+							"    pm.expect(responseBody['current-stock']).to.be.a('number');\r",
+							"    pm.expect(responseBody['current-stock']).to.equal(0);\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"available\"\r",
+							"pm.test(\"Memeriksa nilai available\", function () {\r",
+							"    pm.expect(responseBody.available).to.be.a('boolean');\r",
+							"    pm.expect(responseBody.available).to.be.false;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/books/:bookId",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"books",
+						":bookId"
+					],
+					"variable": [
+						{
+							"key": "bookId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "id book 1",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/books/:bookId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								":bookId"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:09:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "161"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"a1-Mcj+H8w3JMJfpTU/R3TvAdr/Z7E\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"name\": \"The Russian\",\n    \"author\": \"James Patterson and James O. Born\",\n    \"isbn\": \"1780899475\",\n    \"type\": \"fiction\",\n    \"price\": 12.98,\n    \"current-stock\": 12,\n    \"available\": true\n}"
+				},
+				{
+					"name": "id book 2",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/books/:bookId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"books",
+								":bookId"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:10:00 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "125"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"7d-Ckimjt0oK2HpwoZelYONnQZ4+4w\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"name\": \"Just as I Am\",\n    \"author\": \"Cicely Tyson\",\n    \"type\": \"non-fiction\",\n    \"price\": 20.33,\n    \"current-stock\": 0,\n    \"available\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Post - Submit Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Menghasilkan data dinamis berbeda setiap kali skrip dijalankan\r",
+							"var dynamicData = {\r",
+							"    \"Pelanggan\": Math.floor(Math.random() * 1000) // Menghasilkan nama pelanggan acak\r",
+							"};\r",
+							"\r",
+							"// Menetapkan data dinamis ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"dynamicData\", dynamicData);\r",
+							"\r",
+							"// Mengambil nilai customerName dari dynamicData\r",
+							"var customerName = pm.environment.get(\"dynamicData\").Pelanggan;\r",
+							"\r",
+							"// Menyimpan customerName ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"customerName\", customerName);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Mendapatkan body response dari respons\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"// Menyimpan orderId ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"orderId\", responseBody.orderId);\r",
+							"\r",
+							"// tes status code\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"// tes waktu repson\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Memeriksa apakah respons adalah objek\r",
+							"pm.test(\"Memeriksa apakah respons adalah objek\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"created\"\r",
+							"pm.test(\"Memeriksa nilai created\", function () {\r",
+							"    pm.expect(pm.response.json().created).to.be.a('boolean');\r",
+							"    pm.expect(pm.response.json().created).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"orderId\"\r",
+							"pm.test(\"Memeriksa nilai orderId\", function () {\r",
+							"    pm.expect(pm.response.json().orderId).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{akses_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\": 1,\r\n    \"customerName\": \"{{customerName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/orders",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "submit order",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": 1,\r\n  \"customerName\": \"faiqaq\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/orders",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:18:46 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "50"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"32-egOZMra4AHRSiimqbAnxKsUWMWU\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"created\": true,\n    \"orderId\": \"CkI7AcQdtOL3YR5LvntMa\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get - All Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// tes status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// tes waktu repson\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Mendapatkan body respons dari respon\r",
+							"var responseBody = pm.response.json();\r",
+							"\r",
+							"// Memeriksa apakah responseBody adalah sebuah array\r",
+							"pm.test(\"Memeriksa apakah respons adalah sebuah array\", function () {\r",
+							"    pm.expect(responseBody).to.be.an('array');\r",
+							"    \r",
+							"    // Jika array kosong\r",
+							"    if (responseBody.length === 0) {\r",
+							"        console.log(\"Array respons kosong\");\r",
+							"    }\r",
+							"    // Jika array hanya memiliki satu entri\r",
+							"    else if (responseBody.length === 1) {\r",
+							"        console.log(\"Array respons hanya memiliki satu entri\");\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"// Jika array tidak kosong, iterasi melalui setiap entri data\r",
+							"if (responseBody.length > 0) {\r",
+							"    responseBody.forEach(function(entry) {\r",
+							"        // Memeriksa nilai dari atribut \"id\"\r",
+							"        pm.test(\"Memeriksa nilai ID\", function () {\r",
+							"            pm.expect(entry.id).to.be.a('string');\r",
+							"        });\r",
+							"\r",
+							"        // Memeriksa nilai dari atribut \"bookId\"\r",
+							"        pm.test(\"Memeriksa nilai bookId\", function () {\r",
+							"            pm.expect(entry.bookId).to.be.a('number');\r",
+							"        });\r",
+							"\r",
+							"        // Memeriksa nilai dari atribut \"customerName\"\r",
+							"        pm.test(\"Memeriksa nilai customerName\", function () {\r",
+							"            pm.expect(entry.customerName).to.be.a('string');\r",
+							"        });\r",
+							"\r",
+							"        // Memeriksa nilai dari atribut \"createdBy\"\r",
+							"        pm.test(\"Memeriksa nilai createdBy\", function () {\r",
+							"            pm.expect(entry.createdBy).to.be.a('string');\r",
+							"        });\r",
+							"\r",
+							"        // Memeriksa nilai dari atribut \"quantity\"\r",
+							"        pm.test(\"Memeriksa nilai quantity\", function () {\r",
+							"            pm.expect(entry.quantity).to.be.a('number');\r",
+							"        });\r",
+							"\r",
+							"        // Memeriksa nilai dari atribut \"timestamp\"\r",
+							"        pm.test(\"Memeriksa nilai timestamp\", function () {\r",
+							"            pm.expect(entry.timestamp).to.be.a('number');\r",
+							"        });\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{akses_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/orders",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "semua order buku",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/orders",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:24:44 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "185"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"b9-T1pn4G+kKF83OkqXvDw8prKC8rE\""
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"CkI7AcQdtOL3YR5LvntMa\",\n        \"bookId\": 1,\n        \"customerName\": \"faiqaq\",\n        \"createdBy\": \"e414ed45e66d326345bd36fd380f5fb4e9c30922f29105f74bde3ebaba3d3dfc\",\n        \"quantity\": 1,\n        \"timestamp\": 1710649125852\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get - Order ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// tes status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// tes waktu repson\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"// Memeriksa apakah respons adalah objek\r",
+							"pm.test(\"Memeriksa apakah respons adalah objek\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"id\"\r",
+							"pm.test(\"Memeriksa nilai ID\", function () {\r",
+							"    pm.expect(pm.response.json().id).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"bookId\"\r",
+							"pm.test(\"Memeriksa nilai bookId\", function () {\r",
+							"    pm.expect(pm.response.json().bookId).to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"customerName\"\r",
+							"pm.test(\"Memeriksa nilai customerName\", function () {\r",
+							"    pm.expect(pm.response.json().customerName).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"createdBy\"\r",
+							"pm.test(\"Memeriksa nilai createdBy\", function () {\r",
+							"    pm.expect(pm.response.json().createdBy).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"quantity\"\r",
+							"pm.test(\"Memeriksa nilai quantity\", function () {\r",
+							"    pm.expect(pm.response.json().quantity).to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"// Memeriksa nilai dari atribut \"timestamp\"\r",
+							"pm.test(\"Memeriksa nilai timestamp\", function () {\r",
+							"    pm.expect(pm.response.json().timestamp).to.be.a('number');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{akses_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/orders/:orderId",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}",
+							"description": "masukan order_id"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Buku tertentu - sebelum update",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/orders/:orderId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:27:22 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "183"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"b7-58fdMN8GHVZSBGSVNk5jhTcw+0E\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"CkI7AcQdtOL3YR5LvntMa\",\n    \"bookId\": 1,\n    \"customerName\": \"faiqaq\",\n    \"createdBy\": \"e414ed45e66d326345bd36fd380f5fb4e9c30922f29105f74bde3ebaba3d3dfc\",\n    \"quantity\": 1,\n    \"timestamp\": 1710649125852\n}"
+				},
+				{
+					"name": "Buku tertentu - setelah update",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/orders/:orderId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:29:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "184"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"b8-gK14cTTW777JprfrQuQDeRfSLoU\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"CkI7AcQdtOL3YR5LvntMa\",\n    \"bookId\": 1,\n    \"customerName\": \"faiqaqa\",\n    \"createdBy\": \"e414ed45e66d326345bd36fd380f5fb4e9c30922f29105f74bde3ebaba3d3dfc\",\n    \"quantity\": 1,\n    \"timestamp\": 1710649125852\n}"
+				}
+			]
+		},
+		{
+			"name": "Patch - Update Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// tes waktu repson\r",
+							"pm.test(\"Response time is less than 5000ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(5000);\r",
+							"});\r",
+							"\r",
+							"// tes status code\r",
+							"pm.test(\"Status code is 204 No Content\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"// test data kosong setelah update\r",
+							"pm.test(\"Response body is empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Menghasilkan data dinamis berbeda setiap kali skrip dijalankan\r",
+							"var dynamicData = {\r",
+							"    \"Pelanggan\": Math.floor(Math.random() * 1000) // Menghasilkan nama pelanggan acak\r",
+							"};\r",
+							"\r",
+							"// Menetapkan data dinamis ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"dynamicDataOrder\", dynamicData);\r",
+							"\r",
+							"// Mengambil nilai customerName dari dynamicData\r",
+							"var customerName = pm.environment.get(\"dynamicDataOrder\").Pelanggan;\r",
+							"\r",
+							"// Menyimpan customerName ke dalam variabel lingkungan\r",
+							"pm.environment.set(\"custnameUpdate\", customerName);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{akses_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerName\": \"{{custnameUpdate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/orders/:orderId",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}",
+							"description": "masukan order_id"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "update order buku",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerName\": \"faiqaqa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/orders/:orderId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								}
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:28:28 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Delete - Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// tes waktu repson\r",
+							"pm.test(\"Response time is less than 5000ms\", function () {\r",
+							"\tpm.expect(pm.response.responseTime).to.be.below(5000);\r",
+							"});\r",
+							"\r",
+							"// tes status code\r",
+							"pm.test(\"Status code is 204 No Content\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"// test data kosong setelah update\r",
+							"pm.test(\"Response body is empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{akses_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/orders/:orderId",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}",
+							"description": "masukan order_id"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete - Order",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/orders/:orderId",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "jTE9p4VHcRFQx4ivTv-Ev",
+									"description": "masukan order_id"
+								}
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 17 Mar 2024 04:21:55 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
