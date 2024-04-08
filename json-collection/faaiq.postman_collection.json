@@ -204,6 +204,11 @@
 							"pm.test(\"Status is OK\", function () {\r",
 							"    pm.expect(responseBody.status).to.equal(\"OK\");\r",
 							"});\r",
+							"\r",
+							"pm.test(\"Status should not be empty\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.not.be.empty;\r",
+							"});\r",
 							""
 						],
 						"type": "text/javascript",
@@ -213,8 +218,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"exec": [],
-						"type": "text/javascript"
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -299,6 +307,17 @@
 							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
 							"});\r",
 							"\r",
+							"// Pastikan respons tidak kosong\r",
+							"pm.test(\"Respons tidak kosong\", function () {\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"});\r",
+							"\r",
+							"// Pastikan jumlah item dalam respons lebih dari 0\r",
+							"pm.test(\"Memeriksa jumlah item dalam respons\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"});\r",
+							"\r",
 							"// tes respon body.value\r",
 							"// Mendapatkan body respons dari respon\r",
 							"var responseBody = pm.response.json();\r",
@@ -340,8 +359,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"exec": [],
-						"type": "text/javascript"
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -426,6 +448,22 @@
 							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
 							"});\r",
 							"\r",
+							"// tes pastikan data bukan null\r",
+							"pm.test(\"Memvalidasi respons secara keseluruhan\", function () {\r",
+							"    // Memastikan respons tidak kosong\r",
+							"    pm.response.to.have.jsonBody();\r",
+							"\r",
+							"    // Memeriksa setiap atribut buku\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"id\").that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property(\"name\").that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property(\"author\").that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property(\"type\").that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property(\"price\").that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property(\"current-stock\").that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property(\"available\").that.is.not.null;\r",
+							"});\r",
+							"\r",
 							"// tes respon body.value\r",
 							"// Mendapatkan body respons dari respon\r",
 							"var responseBody = pm.response.json();\r",
@@ -476,8 +514,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"exec": [],
-						"type": "text/javascript"
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -658,6 +699,18 @@
 							"\tpm.expect(pm.response.responseTime).to.be.below(1000);\r",
 							"});\r",
 							"\r",
+							"// Memastikan respons tidak kosong \r",
+							"pm.test(\"Memvalidasi respons\", function () {\r",
+							"    // Memastikan respons tidak kosong\r",
+							"    pm.response.to.not.be.null;\r",
+							"\r",
+							"    // Memeriksa properti \"created\" ada dan bernilai true\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"created\", true);\r",
+							"\r",
+							"    // Memeriksa properti \"orderId\" ada dan tidak kosong\r",
+							"    pm.expect(jsonData).to.have.property(\"orderId\").that.is.not.null;\r",
+							"});\r",
 							"\r",
 							"// Memeriksa apakah respons adalah objek\r",
 							"pm.test(\"Memeriksa apakah respons adalah objek\", function () {\r",
@@ -806,6 +859,26 @@
 							"    else if (responseBody.length === 1) {\r",
 							"        console.log(\"Array respons hanya memiliki satu entri\");\r",
 							"    }\r",
+							"\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"// tes pastikan data bukan null\r",
+							"pm.test(\"Periksa semua data yang ada\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    // Memastikan setiap objek tidak kosong\r",
+							"    jsonData.forEach(function(item) {\r",
+							"        pm.expect(item).to.not.be.null;\r",
+							"        \r",
+							"        // Memastikan setiap properti ada dan tidak kosong\r",
+							"        pm.expect(item).to.have.property('id').that.is.not.null;\r",
+							"        pm.expect(item).to.have.property('bookId').that.is.not.null;\r",
+							"        pm.expect(item).to.have.property('customerName').that.is.not.null;\r",
+							"        pm.expect(item).to.have.property('createdBy').that.is.not.null;\r",
+							"        pm.expect(item).to.have.property('quantity').that.is.not.null;\r",
+							"        pm.expect(item).to.have.property('timestamp').that.is.not.null;\r",
+							"    });\r",
 							"});\r",
 							"\r",
 							"// Jika array tidak kosong, iterasi melalui setiap entri data\r",
@@ -952,6 +1025,24 @@
 							"// Memeriksa apakah respons adalah objek\r",
 							"pm.test(\"Memeriksa apakah respons adalah objek\", function () {\r",
 							"    pm.expect(pm.response.json()).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"// Memastikan respons tidak kosong\r",
+							"pm.test(\"Memastikan respons tidak kosong\", function () {\r",
+							"    pm.response.to.not.be.null;\r",
+							"});\r",
+							"\r",
+							"// tes respon kosong\r",
+							"// Memastikan setiap properti tidak kosong\r",
+							"pm.test(\"Memastikan setiap properti tidak kosong\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData).to.have.property('id').that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property('bookId').that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property('customerName').that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property('createdBy').that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property('quantity').that.is.not.null;\r",
+							"    pm.expect(jsonData).to.have.property('timestamp').that.is.not.null;\r",
 							"});\r",
 							"\r",
 							"// Memeriksa nilai dari atribut \"id\"\r",
